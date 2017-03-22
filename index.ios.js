@@ -12,6 +12,7 @@ import {
   TouchableHighlight,
   ImagePickerIOS,
 } from 'react-native';
+import Translate from './Translate/Translate.js'
 
 export default class purple extends Component {
   constructor(props) {
