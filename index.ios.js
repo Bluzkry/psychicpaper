@@ -28,7 +28,7 @@ export default class purple extends Component {
     this.pickImage = this.pickImage.bind(this);
   }
 
-  sendPhoto() {
+  sendText() {
     // return fetch('http://127.0.0.1:8080/api/upload', {
     //   method: 'POST',
     //   headers: {
@@ -60,6 +60,7 @@ export default class purple extends Component {
 
   render() {
     return (
+      <ScrollView>
       <View style={styles.container}>
         <Text style={styles.main}>Translate a Photo</Text>
         <Text style={styles.section}>Choose photo from URL</Text>
@@ -72,6 +73,7 @@ export default class purple extends Component {
         {/*this will need to be changed in the future*/}
         {this.state.showTranslation ?  <Translate imgURL={this.state.text}/> : null}
       </View>
+      </ScrollView>
     );
   }
 }

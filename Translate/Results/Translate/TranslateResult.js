@@ -4,7 +4,11 @@ import React, { Component } from 'react';
 import {
   Text,
   View
-} from 'react-native'
+} from 'react-native';
+import {
+  Select,
+  Option
+} from 'react-native-chooser';
 import axios from 'axios';
 
 
@@ -18,92 +22,89 @@ class TranslateResult extends Component {
       targetLanguage: 'en'
     };
 
-    // this.componentDidUpdate = this.componentDidUpdate.bind(this);
-    // this.onDropdownSelect = this.onDropdownSelect.bind(this);
+    this.onSelect = this.onSelect.bind(this);
+    this.componentWillMount = this.componentWillMount.bind(this);
+    this.onSelect = this.onSelect.bind(this);
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const mappedKeywords = this.props.keywords.map(v => v.class);
-  //   this.setState({
-  //     keywords: mappedKeywords
-  //   });
-  // }
+  onSelect(data) {
+    // debugger;
+    let language;
+      if (data === 'English') {
+        language = 'en';
+      } else if (data === 'Spanish') {
+        language = 'es';
+      } else if (data === 'Chinese') {
+        language = 'zh-CN';
+      } else if (data === 'French') {
+        language = 'fr';
+      } else if (data === 'Hindi') {
+        language = 'hi';
+      } else if (data === 'Korean') {
+        language = 'ko';
+      } else if (data === 'Hebrew') {
+        language = 'iw';
+      } else if (data === 'German') {
+        language = 'de';
+      } else if (data === 'Japanese') {
+        language = 'ja';
+      }
 
-  // onDropdownSelect(e) {
-  //   var language = '';
-  //   if (e.target.value === 'English') {
-  //     language = 'en';
-  //   } else if (e.target.value === 'Spanish') {
-  //     language = 'es';
-  //   } else if (e.target.value === 'Chinese') {
-  //     language = 'zh-CN';
-  //   } else if (e.target.value === 'French') {
-  //     language = 'fr';
-  //   } else if (e.target.value === 'Hindi') {
-  //     language = 'hi';
-  //   } else if (e.target.value === 'Korean') {
-  //     language = 'ko';
-  //   } else if (e.target.value === 'Hebrew') {
-  //     language = 'iw';
-  //   } else if (e.target.value === 'German') {
-  //     language = 'de';
-  //   } else if (e.target.value === 'Japanese') {
-  //     language = 'ja';
-  //   }
-  //
-  //   this.setState({
-  //     targetLanguage: language
-  //   }, () => {
-  //     // console.log(this.state.keywords, this.state.targetLanguage);
-  //     axios.post('/api/translate', { keywords: this.state.keywords, source: 'en', target: this.state.targetLanguage })
-  //       .then((result) => {
-  //         var translations = result.data.data.translations.map(v => v.translatedText);
-  //         this.setState({
-  //           translatedKeywords: translations
-  //         });
-  //       });
-  //   });
-  // }
+    this.setState({
+      targetLanguage: language
+    }, () => {
+      axios.post('http://localhost:8080/api/translate', { keywords: this.state.keywords, source: 'en', target: this.state.targetLanguage })
+        .then((result) => {
+          var translations = result.data.data.translations.map(v => v.translatedText);
+          this.setState({
+            translatedKeywords: translations
+          });
+        })
+        .catch(err => console.error(err));
+    });
+  }
+
+  componentWillMount(prevProps, prevState) {
+    const mappedKeywords = this.props.keywords.map(v => v.class);
+    this.setState({
+      keywords: mappedKeywords
+    });
+  }
 
   render() {
     return (
-      <View>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Text>target language</Text>
+        <Select
+          defaultText="Select a language"
+          onSelect={this.onSelect}
+          width={250}
+          ref="select"
+        >
+
+        {/*<Option value="English">English</Option>*/}
+        <Option value="Spanish">Spanish</Option>
+        <Option value="Chinese">Chinese</Option>
+        <Option value="French">French</Option>
+        <Option value="Hindi">Hindi</Option>
+        <Option value="Korean">Korean</Option>
+        <Option value="Hebrew">Hebrew</Option>
+        <Option value="German">German</Option>
+        <Option value="Japanese">Japanese</Option>
+
+        </Select>
+
+        {this.state.translatedKeywords.map((keyword, index) => {
+          return (
+            <Text key={index}>
+            {keyword}
+            </Text>
+          )}
+        )}
+
       </View>
       )
   }
-
-  // render() {
-  //   return (
-  //     <table className="translation-results-container">
-  //       <thead className="dropdown-item">
-  //       <tr className="target-language">
-  //         <th><span>target language </span></th>
-  //         <th><select name="languagelist" form="languageform" onChange={this.onDropdownSelect}>
-  //           <option value="English">English</option>
-  //           <option value="Spanish">Spanish</option>
-  //           <option value="Chinese">Chinese</option>
-  //           <option value="French">French</option>
-  //           <option value="Hindi">Hindi</option>
-  //           <option value="Korean">Korean</option>
-  //           <option value="Hebrew">Hebrew</option>
-  //           <option value="German">German</option>
-  //           <option value="Japanese">Japanese</option>
-  //         </select></th>
-  //       </tr>
-  //       </thead>
-  //       <tbody className="translated-item">
-  //       {this.state.translatedKeywords.map((keyword, index) => {
-  //         return (
-  //           <tr key={index}>
-  //             <td>{keyword}</td>
-  //           </tr>
-  //         )
-  //       })}
-  //       </tbody>
-  //     </table>
-  //   )
-  // }
 }
 
 export default TranslateResult;
