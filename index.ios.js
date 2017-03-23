@@ -19,29 +19,35 @@ export default class purple extends Component {
     super(props);
     this.state = {
       image: null,
-      text: ''
+      text: 'https://facebook.github.io/react/img/logo_og.png',
+      // need to get rid of this in the future
+      showTranslation: false
     };
 
     this.sendText = this.sendText.bind(this);
     this.pickImage = this.pickImage.bind(this);
   }
 
-  sendText() {
-    return fetch('http://127.0.0.1:8080/api/upload', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        url: this.state.text
-      })
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-        console.log('RESPONSE: ', responseJson);
-    })
-    .catch(err => console.log('error1!!: ', err));
+  sendPhoto() {
+    // return fetch('http://127.0.0.1:8080/api/upload', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     url: this.state.text
+    //   })
+    // })
+    // .then((response) => response.json())
+    // .then((responseJson) => {
+    //   // this needs to be changed in the future
+        this.setState({
+          showTranslation: true
+        });
+    //     console.log('RESPONSE: ', responseJson);
+    // })
+    // .catch(err => console.log('error1!!: ', err));
   }
 
   pickImage() {
@@ -63,6 +69,8 @@ export default class purple extends Component {
         <Button title="Send URL" onPress={this.sendText} />
         <Text style={styles.section}>Choose photo from library</Text>
         <Button title="Open photo library" onPress={this.pickImage} />
+        {/*this will need to be changed in the future*/}
+        {this.state.showTranslation ?  <Translate imgURL={this.state.text}/> : null}
       </View>
     );
   }
