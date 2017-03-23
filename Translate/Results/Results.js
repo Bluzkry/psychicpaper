@@ -13,7 +13,7 @@ class Results extends Component {
     return (
       <View className="results-container">
         <View className="keyword-item"><Keyword keywords={this.props.keywords} /></View>
-        {/*<View className="results-item"><TranslateResult keywords={this.props.keywords} /></View>*/}
+        <View className="results-item"><TranslateResult keywords={this.props.keywords} /></View>
       </View>
     )
   }
