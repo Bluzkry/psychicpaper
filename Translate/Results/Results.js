@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {Text, View} from 'react-native';
 import Keyword from './Keyword/Keyword.js';
 import TranslateResult from './Translate/TranslateResult.js';
+import {styles} from '../../index.ios.js';
 
 class Results extends Component {
   constructor(props) {
@@ -11,9 +12,9 @@ class Results extends Component {
 
   render() {
     return (
-      <View className="results-container">
-        <View className="keyword-item"><Keyword keywords={this.props.keywords} /></View>
-        <View className="results-item"><TranslateResult keywords={this.props.keywords} /></View>
+      <View>
+        <Keyword keywords={this.props.keywords} />
+        <TranslateResult keywords={this.props.keywords} />
       </View>
     )
   }

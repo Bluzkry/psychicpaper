@@ -1,14 +1,19 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {
+  ScrollView,
+  Text,
+  View
+} from 'react-native';
 import ImageView from './ImageView/ImageView.js';
 import Results from './Results/Results.js';
-const Main = require('../index.ios');
+import {styles} from '../index.ios.js';
 
 class Translate extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      // keywords: this.props.navigation.state.params.keywords
       keywords: [ { class: 'tiara',
         score: 0.761,
         type_hierarchy: '/headdress/tiara' },
@@ -22,19 +27,12 @@ class Translate extends Component {
   }
 
   render() {
-    console.log(Main.styles);
     return (
-      <View className="translate-container">
-        <View className="translate-header">
-        <Text style={Main.styles}>translation results</Text>
-        </View>
-    <View className="translate-components">
-      <View className="image-div">
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.main}>Translation Results</Text>
         <ImageView imgURL={this.props.navigation.state.params.imgURL} />
-      </View>
-    <View className="results-div"><Results keywords={this.state.keywords}/></View>
-    </View>
-    </View>
+        <Results keywords={this.state.keywords}/>
+      </ScrollView>
     )
   }
 }

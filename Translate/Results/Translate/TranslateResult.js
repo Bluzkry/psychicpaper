@@ -10,6 +10,7 @@ import {
   Option
 } from 'react-native-chooser';
 import axios from 'axios';
+import {styles} from '../../../index.ios.js';
 
 
 class TranslateResult extends Component {
@@ -72,13 +73,13 @@ class TranslateResult extends Component {
 
   render() {
     return (
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <Text>target language</Text>
+      <View style={styles.center}>
+        <Text style={styles.section}>Target Language</Text>
         <Select
           defaultText="Select a language"
           onSelect={this.onSelect}
-          width={250}
           ref="select"
+          style={{marginTop: 10}}
         >
 
         {/*<Option value="English">English</Option>*/}
@@ -95,7 +96,7 @@ class TranslateResult extends Component {
 
         {this.state.translatedKeywords.map((keyword, index) => {
           return (
-            <Text key={index}>
+            <Text style={styles.smallText} key={index}>
             {keyword}
             </Text>
           )}

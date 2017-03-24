@@ -5,6 +5,7 @@ import {
   Text,
   View
 } from 'react-native';
+import {styles} from '../../../index.ios'
 
 class Keyword extends React.Component {
   constructor(props) {
@@ -16,39 +17,22 @@ class Keyword extends React.Component {
   
   render() {
     return (
-      <ScrollView >
-        <View style={styles.column} key={-1}>
-          <Text style={styles.heading}>Main</Text>
-          <Text style={styles.heading}>Score</Text>
+      <View style={styles.keywordOverall}>
+        <View style={styles.keywordColumn} key={-1}>
+          <Text style={styles.keywordHeading}>Main</Text>
+          <Text style={styles.keywordHeading}>Score</Text>
         </View>
         {this.props.keywords.map((keyword, index) => {
           return (
-            <View style={styles.column} key={index}>
-              <Text style={styles.text}>{keyword.class}</Text>
-              <Text style={styles.text}>{keyword.score}</Text>
+            <View style={styles.keywordColumn} key={index}>
+              <Text style={styles.keywordRow}>{keyword.class}</Text>
+              <Text style={styles.keywordRow}>{keyword.score}</Text>
             </View>
           )
         })}
-      </ScrollView>
+      </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  column: {
-    flexDirection: 'row',
-    flex: 1
-  },
-  heading: {
-    fontWeight: 'bold',
-    flexDirection: 'column',
-    paddingBottom: 10,
-    width: 200
-  },
-  text: {
-    flexDirection: 'column',
-    width: 200
-  }
-});
 
 export default Keyword;

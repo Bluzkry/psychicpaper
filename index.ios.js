@@ -16,12 +16,12 @@ import {StackNavigator} from 'react-navigation';
 import Translate from './Translate/Translate.js'
 
 
-export default class purple extends Component {
+class purple extends Component {
   constructor(props) {
     super(props);
     this.state = {
       image: null,
-      text: '',
+      text: 'https://facebook.github.io/react/img/logo_og.png',
       keywords: null,
       urlImage: null,
     };
@@ -36,25 +36,26 @@ export default class purple extends Component {
   };
 
   sendText() {
-    this.setState({urlImage: this.state.text})
-    return fetch('http://138.197.213.36:8080/api/upload', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        url: this.state.text
-      })
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      this.setState({
-        keywords: responseJson
-      });
-      this.props.navigation.navigate('Translation', {imgURL: this.state.text})
-  })
-    .catch(err => console.log('error1!!: ', err));
+    // this.setState({urlImage: this.state.text});
+    // return fetch('http://138.197.213.36:8080/api/upload', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     url: this.state.text
+    //   })
+    // })
+    // .then((response) => response.json())
+    // .then((responseJson) => {
+    //   this.setState({
+    //     keywords: responseJson
+    //   });
+    //   this.props.navigation.navigate('Translation', {imgURL: this.state.text, keywords: responseJson});
+  // })
+  //   .catch(err => console.log('error1!!: ', err));
+      this.props.navigation.navigate('Translation', {imgURL: this.state.text});
   }
 
   sendPhoto() {
@@ -134,7 +135,33 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     margin: 10,
+  },
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  keywordOverall: {
+    left: 20,
+    top: 5
+  },
+  keywordColumn: {
+    flexDirection: 'row',
+  },
+  keywordHeading: {
+    fontWeight: 'bold',
+    flexDirection: 'column',
+    paddingBottom: 10,
+    width: 200
+  },
+  keywordRow: {
+    flexDirection: 'column',
+    width: 200
+  },
+  smallText: {
+    margin: 10
   }
 });
+
+export {purple, styles}
 
 AppRegistry.registerComponent('purple', () => Application);
