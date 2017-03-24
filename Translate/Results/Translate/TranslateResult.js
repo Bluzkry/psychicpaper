@@ -28,7 +28,6 @@ class TranslateResult extends Component {
   }
 
   onSelect(data) {
-    // debugger;
     let language;
       if (data === 'English') {
         language = 'en';
@@ -73,7 +72,7 @@ class TranslateResult extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <Text>target language</Text>
         <Select
           defaultText="Select a language"

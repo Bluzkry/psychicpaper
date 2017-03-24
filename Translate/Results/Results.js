@@ -1,6 +1,6 @@
 // Results React Component contain dropdown list and translate Results
 import React, { Component } from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import Keyword from './Keyword/Keyword.js';
 import TranslateResult from './Translate/TranslateResult.js';
 

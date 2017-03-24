@@ -11,7 +11,8 @@
     "react": "15.4.2",
     "react-native": "0.42.3",
     "react-native-camera-roll-picker": "^1.1.9",
-    "react-native-chooser": "^1.4.0"
+    "react-native-chooser": "^1.4.0",
+    "react-navigation": "^1.0.0-beta.7"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",

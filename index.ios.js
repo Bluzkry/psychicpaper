@@ -12,21 +12,25 @@ import {
   TouchableHighlight,
   ImagePickerIOS,
 } from 'react-native';
+import {StackNavigator} from 'react-navigation';
 import Translate from './Translate/Translate.js'
+
 
 export default class purple extends Component {
   constructor(props) {
     super(props);
     this.state = {
       image: null,
-      text: 'https://facebook.github.io/react/img/logo_og.png',
-      // need to get rid of this in the future
-      showTranslation: false
+      text: 'https://facebook.github.io/react/img/logo_og.png'
     };
 
     this.sendText = this.sendText.bind(this);
     this.pickImage = this.pickImage.bind(this);
   }
+
+  static navigationOptions = {
+    title: 'Home',
+  };
 
   sendText() {
     // return fetch('http://127.0.0.1:8080/api/upload', {
@@ -41,11 +45,7 @@ export default class purple extends Component {
     // })
     // .then((response) => response.json())
     // .then((responseJson) => {
-    //   // this needs to be changed in the future
-        this.setState({
-          showTranslation: true
-        });
-    //     console.log('RESPONSE: ', responseJson);
+        this.props.navigation.navigate('Translation', {imgURL: this.state.text})
     // })
     // .catch(err => console.log('error1!!: ', err));
   }
@@ -70,13 +70,16 @@ export default class purple extends Component {
         <Button title="Send URL" onPress={this.sendText} />
         <Text style={styles.section}>Choose photo from library</Text>
         <Button title="Open photo library" onPress={this.pickImage} />
-        {/*this will need to be changed in the future*/}
-        {this.state.showTranslation ?  <Translate imgURL={this.state.text}/> : null}
       </View>
       </ScrollView>
     );
   }
 }
+
+const Application = StackNavigator({
+  Home: {screen: purple},
+  Translation: {screen: Translate}
+});
 
 const styles = StyleSheet.create({
   main: {
@@ -105,4 +108,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('purple', () => purple);
+AppRegistry.registerComponent('purple', () => Application);

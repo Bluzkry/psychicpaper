@@ -28,7 +28,7 @@ class Translate extends Component {
         </View>
     <View className="translate-components">
       <View className="image-div">
-        <ImageView imgURL={this.props.imgURL} />
+        <ImageView imgURL={this.props.navigation.state.params.imgURL} />
       </View>
     <View className="results-div"><Results keywords={this.state.keywords}/></View>
     </View>
