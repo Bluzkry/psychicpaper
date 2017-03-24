@@ -21,11 +21,14 @@ export default class purple extends Component {
     super(props);
     this.state = {
       image: null,
-      text: 'https://facebook.github.io/react/img/logo_og.png'
+      text: '',
+      keywords: null,
+      urlImage: null,
     };
 
     this.sendText = this.sendText.bind(this);
     this.pickImage = this.pickImage.bind(this);
+    this.sendPhoto = this.sendPhoto.bind(this);
   }
 
   static navigationOptions = {
@@ -33,21 +36,29 @@ export default class purple extends Component {
   };
 
   sendText() {
-    // return fetch('http://127.0.0.1:8080/api/upload', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     url: this.state.text
-    //   })
-    // })
-    // .then((response) => response.json())
-    // .then((responseJson) => {
-        this.props.navigation.navigate('Translation', {imgURL: this.state.text})
-    // })
-    // .catch(err => console.log('error1!!: ', err));
+    this.setState({urlImage: this.state.text})
+    return fetch('http://138.197.213.36:8080/api/upload', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        url: this.state.text
+      })
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        keywords: responseJson
+      });
+      this.props.navigation.navigate('Translation', {imgURL: this.state.text})
+  })
+    .catch(err => console.log('error1!!: ', err));
+  }
+
+  sendPhoto() {
+    console.log('yay');
   }
 
   pickImage() {
@@ -68,8 +79,21 @@ export default class purple extends Component {
           onChangeText={(text) => this.setState({text})}
           value={this.state.text} placeholder="URL" />
         <Button title="Send URL" onPress={this.sendText} />
+        <View>
+         {this.state.urlImage ? <Image source={{uri : this.state.urlImage}} style={{width: 100, height: 100}}/> : null}
+       </View>
+
         <Text style={styles.section}>Choose photo from library</Text>
         <Button title="Open photo library" onPress={this.pickImage} />
+          { this.state.image ? 
+            <View>
+              <Image style={styles.image} source={{uri: this.state.image}} /> 
+              <Button title="Send photo" onPress={this.sendPhoto} />
+            </View>
+          : null}
+        <View> 
+          {this.state.keywords ? this.state.keywords.map((word) => <Text>{word.class} {word.score}</Text>) : null}
+        </View>
       </View>
       </ScrollView>
     );
@@ -105,6 +129,11 @@ const styles = StyleSheet.create({
     container: {
     flex: 1,
     // backgroundColor: '#1CABBD',
+  },
+  image: {
+    width: 100,
+    height: 100,
+    margin: 10,
   }
 });
 
