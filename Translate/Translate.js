@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import ImageView from './ImageView/ImageView.js';
 import Results from './Results/Results.js';
+const Main = require('../index.ios');
 
 class Translate extends Component {
   constructor(props) {
@@ -21,10 +22,11 @@ class Translate extends Component {
   }
 
   render() {
+    console.log(Main.styles);
     return (
       <View className="translate-container">
         <View className="translate-header">
-        <Text>translation results</Text>
+        <Text style={Main.styles}>translation results</Text>
         </View>
     <View className="translate-components">
       <View className="image-div">

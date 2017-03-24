@@ -5,10 +5,9 @@ import {Image, View} from 'react-native';
 // Using Stateless style
 // Expect App.js pass imageURL data to ImageView
 const ImageView = (props) => {
-  const image = props.imgURL.toString();
   return (
     <View className="image-view-container">
-      <Image className="image-view" source={{uri: image}} style={{width: 200, height: 200}}/>
+      <Image className="image-view" source={{uri: props.imgURL}} style={{width: 200, height: 200}}/>
     </View>
   )
 };
