@@ -222,4 +222,4 @@ const styles = StyleSheet.create({
 
 export {purple, styles}
 
-AppRegistry.registerComponent('purple', () => Application);
+AppRegistry.registerComponent('purple', () => purple);
