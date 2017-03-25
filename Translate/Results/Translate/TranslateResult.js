@@ -53,7 +53,7 @@ class TranslateResult extends Component {
     this.setState({
       targetLanguage: language
     }, () => {
-      axios.post('http://localhost:8080/api/translate', { keywords: this.state.keywords, source: 'en', target: this.state.targetLanguage })
+      axios.post('http://138.197.213.36:8080/api/translate', { keywords: this.state.keywords, source: 'en', target: this.state.targetLanguage })
         .then((result) => {
           var translations = result.data.data.translations.map(v => v.translatedText);
           this.setState({

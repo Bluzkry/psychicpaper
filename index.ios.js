@@ -12,9 +12,10 @@ import {
   TouchableHighlight,
   ImagePickerIOS,
 } from 'react-native';
+const RNFS = require('react-native-fs');
+import RNFetchBlob from 'react-native-fetch-blob';
 import {StackNavigator} from 'react-navigation';
-import Translate from './Translate/Translate.js'
-
+import Translate from './Translate/Translate.js';
 
 class purple extends Component {
   constructor(props) {
@@ -36,37 +37,48 @@ class purple extends Component {
   };
 
   sendText() {
-    // this.setState({urlImage: this.state.text});
-    // return fetch('http://138.197.213.36:8080/api/upload', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     url: this.state.text
-    //   })
-    // })
-    // .then((response) => response.json())
-    // .then((responseJson) => {
-    //   this.setState({
-    //     keywords: responseJson
-    //   });
-    //   this.props.navigation.navigate('Translation', {imgURL: this.state.text, keywords: responseJson});
-  // })
-  //   .catch(err => console.log('error1!!: ', err));
+    this.setState({urlImage: this.state.text})
+    return fetch('http://138.197.213.36:8080/api/upload', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        url: this.state.text
+      })
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        keywords: responseJson
+      });
       this.props.navigation.navigate('Translation', {imgURL: this.state.text});
+    })
+    .catch(err => console.log('Error sending url to /api/upload: ', err));
   }
 
   sendPhoto() {
-    console.log('yay');
+    RNFetchBlob.fetch('POST', 
+      'http://138.197.213.36:8080/api/photo', 
+      {'Content-Type' : 'application/octet-stream',}, 
+      RNFetchBlob.wrap(this.state.image))
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        keywords: responseJson
+      });
+    })
+    .catch((err) => {
+      console.log('Error sending photo to /api/photo: ', err);
+    });
   }
 
   pickImage() {
     ImagePickerIOS.openSelectDialog(
       {}, 
       imageUri => {this.setState({ image: imageUri }); console.log('IMAGE: ', this.state.image)}, 
-      error => console.log(error)
+      error => console.log('Error selecting image: ', error)
     );
   }
 

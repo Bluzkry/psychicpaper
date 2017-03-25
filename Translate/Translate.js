@@ -13,17 +13,7 @@ class Translate extends Component {
     super(props);
 
     this.state = {
-      // keywords: this.props.navigation.state.params.keywords
-      keywords: [ { class: 'tiara',
-        score: 0.761,
-        type_hierarchy: '/headdress/tiara' },
-        { class: 'headdress', score: 0.761 },
-        { class: 'crown', score: 0.594 },
-        { class: 'arm band', score: 0.59 },
-        { class: 'circlet decorated band', score: 0.554 },
-        { class: 'azure color', score: 0.89 },
-        { class: 'indigo color', score: 0.725 } ]
-    }
+      keywords: this.props.navigation.state.params.keywords
   }
 
   render() {
