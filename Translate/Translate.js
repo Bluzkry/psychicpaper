@@ -14,6 +14,7 @@ class Translate extends Component {
 
     this.state = {
       keywords: this.props.navigation.state.params.keywords
+    }
   }
 
   render() {
