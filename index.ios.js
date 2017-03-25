@@ -12,10 +12,10 @@ import {
   TouchableHighlight,
   ImagePickerIOS,
 } from 'react-native';
-const RNFS = require('react-native-fs');
-import RNFetchBlob from 'react-native-fetch-blob';
 import {StackNavigator} from 'react-navigation';
+import RNFetchBlob from 'react-native-fetch-blob';
 import Translate from './Translate/Translate.js';
+import Camera from 'react-native-camera';
 
 class purple extends Component {
   constructor(props) {
@@ -25,11 +25,15 @@ class purple extends Component {
       text: 'https://facebook.github.io/react/img/logo_og.png',
       keywords: null,
       urlImage: null,
+      cameraType: Camera.constants.Type.back,
+      showCamera: false
     };
 
     this.sendText = this.sendText.bind(this);
     this.pickImage = this.pickImage.bind(this);
     this.sendPhoto = this.sendPhoto.bind(this);
+    this.takePicture = this.takePicture.bind(this);
+    this.openCamera = this.openCamera.bind(this);
   }
 
   static navigationOptions = {
@@ -82,6 +86,22 @@ class purple extends Component {
     );
   }
 
+  takePicture() {
+      const options = {};
+      this.camera.capture({metadata: options})
+        .then((data) => this.setState({
+          image: data.path,
+          showCamera: false
+        }))
+        .catch(err => console.error('ERROR IN TAKE PIC: ', err));
+    }
+  
+  openCamera() {
+    this.setState({
+      showCamera: true
+    });
+  }
+
   render() {
     return (
       <ScrollView>
@@ -107,6 +127,21 @@ class purple extends Component {
         <View> 
           {this.state.keywords ? this.state.keywords.map((word) => <Text>{word.class} {word.score}</Text>) : null}
         </View>
+        
+        <Button title="Open camera" onPress={this.openCamera} />
+
+        {this.state.showCamera ?  
+        <View style={styles.container}>
+        <Camera
+            ref={(cam) => {
+              this.camera = cam;
+            }}
+            style={styles.preview}
+            aspect={Camera.constants.Aspect.fill}>
+            <Button title="Capture" onPress={this.takePicture} style={styles.button}/>
+          </Camera>
+        </View>
+          : null}
       </View>
       </ScrollView>
     );
@@ -148,9 +183,23 @@ const styles = StyleSheet.create({
     height: 100,
     margin: 10,
   },
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: 400,
+    height: 400
+  },
+  button: {
+    width: 40,
+    height: 40
+  },
   center: {
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  smallText: {
+    margin: 10
   },
   keywordOverall: {
     left: 20,
@@ -168,9 +217,6 @@ const styles = StyleSheet.create({
   keywordRow: {
     flexDirection: 'column',
     width: 200
-  },
-  smallText: {
-    margin: 10
   }
 });
 
